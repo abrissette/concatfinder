@@ -15,7 +15,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   def test_find_sub_word
 
     finder = ConcatFinder.new(SMALL_LIST)
-    puts finder.sub_words
+
     assert_equal([ 'Al', 'bums'], finder.sub_words)
 
   end
