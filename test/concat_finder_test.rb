@@ -1,32 +1,44 @@
 require "test/unit"
 require "../concat_finder"
-
-# potential enhancements
-#   - display provide sub parts for a valid concat
+                  # potential enhancements
 #   - load from file
 #   - start from command line
 #   - inforce candidate profile on index creation
+#   - loop to get the words list from command line
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
+#   - error handling (cant open file, no candidate, etc...)
 
 class ConcatFinderTest < Test::Unit::TestCase
-  SMALL_LIST = ['al', 'bums', 'albums']
 
-  def test_create_finder
+  def test_possible_sub_words_are_smaller_than_six_letter
+    word_list = ['al', 'bums', 'albums', 'pot', 'pantoufle']
+    concat_finder = ConcatFinder.new(word_list)
 
-    finder = ConcatFinder.new(SMALL_LIST)
+    assert_equal(['al', 'bums','pot'], concat_finder.sub_words)
+  end
 
-    assert(finder.words_list.size() > 0)
+  def test_restrict_candidate_to_six_letters_words
+    word_list = ['alli','albums', 'pantin', 'pantoufle']
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal(['albums', 'pantin'], concat_finder.word_candidates)
+  end
+
+  def test_find_a_simple_concat
+    word_list = ['al', 'bums', 'albums', 'pouet']
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
 
   end
 
-  def test_find_sub_word
+  def test_ignore_partial_sub_words
+    word_list = ['pan', 'pantin', 'al', 'bums', 'albums' ]
+    concat_finder = ConcatFinder.new(word_list)
 
-    finder = ConcatFinder.new(SMALL_LIST)
-
-    assert_equal({'albums' => [ 'al', 'bums']}, finder.sub_words)
+    assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
 
   end
-
 
 end
 

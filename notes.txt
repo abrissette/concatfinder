@@ -1,0 +1,15 @@
+
+was very slow to start, was not sure to understand...
+
+as a first step, decide to make it works with one single word and its "subwords".
+
+first version was only displaying the list of subwords. second one was displaying the concatenated word along its subwords: a hash was introduce at this step to store result.
+
+regarding the three version, approach was to write a first workable and readable version, then to branch from it in github when satisfied for speed and etc.
+
+***
+
+look at the flyweigh pattern when it comes to the performance version
+http://en.wikipedia.org/wiki/Flyweight_pattern
+
+look at the Strategy and Template method pattern for the extensible version

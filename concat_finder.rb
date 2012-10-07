@@ -1,31 +1,36 @@
+require 'set'
+
 class ConcatFinder
+    attr_reader :sub_words
+    attr_reader :word_candidates
 
-  attr_reader :words_list
+    def initialize(words = [])
 
-  def initialize(words = [])
-    @words_list = words
-  end
+      @sub_words = words.find_all {|word|  word.size < 6 }
 
-  def sub_words
-    sub_list = Hash.new
-    @words_list.each do | sub_word |
-      if word = find_matches(sub_word) then
-        sub_list[word] = [] if !sub_list[word]
-        sub_list[word].push(sub_word)
-      end
-    end
-    sub_list
-  end
-
-  def find_matches(sub_word)
-    temp_list = @words_list
-
-    temp_list.find do |candidate|
-      if candidate.include?(sub_word) and candidate != sub_word then
-        return candidate
-      end
+      @word_candidates = words.find_all {|word|  word.size == 6 }
     end
 
-  end
+    def find
+      sub_list = Hash.new
+      @word_candidates.each do | word |
+        if sub_words = find_matches(word) then
+          sub_list[word] = sub_words
+        end
+      end
+      sub_list
+    end
+
+  private
+    def find_matches(word)
+      sub_words_set = @sub_words.to_set
+
+      @sub_words.each do | sub_word |
+        if (word.include?(sub_word)) and (sub_words_set.member?(word.sub(sub_word,""))) then
+          return Array.new([sub_word,(word.delete(sub_word))])
+        end
+      end
+
+    end
 
 end
