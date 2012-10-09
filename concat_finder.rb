@@ -14,7 +14,7 @@ class ConcatFinder
     def find
       sub_list = Hash.new
       @word_candidates.each do | word |
-        if sub_words = find_matches(word) then
+        if sub_words = find_concats(word) then
           sub_list[word] = sub_words
         end
       end
@@ -22,15 +22,15 @@ class ConcatFinder
     end
 
   private
-    def find_matches(word)
+    def find_concats(word)
       sub_words_set = @sub_words.to_set
 
       @sub_words.each do | sub_word |
         if (word.include?(sub_word)) and (sub_words_set.member?(word.sub(sub_word,""))) then
-          return Array.new([sub_word,(word.delete(sub_word))])
+          return Array.new([sub_word,(word.sub(sub_word,""))])
         end
       end
-
+        return nil
     end
 
 end

@@ -25,10 +25,18 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_find_a_simple_concat
-    word_list = ['al', 'bums', 'albums', 'pouet']
+    word_list = ['pan', 'tin', 'pantin', 'pouet']
     concat_finder = ConcatFinder.new(word_list)
 
-    assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
+    assert_equal({'pantin' => [ 'pan', 'tin']}, concat_finder.find)
+
+  end
+
+    def test_two_concats
+    word_list = ['al', 'bums', 'albums', 'pouet','pan', 'tin', 'pantin']
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal({'albums' => [ 'al', 'bums'],'pantin' => [ 'pan', 'tin']}, concat_finder.find)
 
   end
 
