@@ -16,14 +16,14 @@ class ConcatFinderTest < Test::Unit::TestCase
     word_list = ['al', 'bums', 'albums', 'pot', 'pantoufle']
     concat_finder = ConcatFinder.new(word_list)
 
-    assert_equal(['al', 'bums','pot'], concat_finder.sub_words)
+    assert_equal(['al', 'bums','pot'], concat_finder.sub_words_list)
   end
 
   def test_restrict_candidate_to_six_letters_words
     word_list = ['alli','albums', 'pantin', 'pantoufle']
     concat_finder = ConcatFinder.new(word_list)
 
-    assert_equal(['albums', 'pantin'], concat_finder.word_candidates)
+    assert_equal(['albums', 'pantin'], concat_finder.word_candidates_list)
   end
 
   def test_throw_an_error_when_zero_candidate
