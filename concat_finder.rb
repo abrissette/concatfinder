@@ -9,6 +9,10 @@ class ConcatFinder
       @sub_words = words.find_all {|word|  word.size < 6 }
 
       @word_candidates = words.find_all {|word|  word.size == 6 }
+
+      if @word_candidates.empty? then
+        raise ArgumentError.new("No valid word candidate in list provided")
+      end
     end
 
     def find

@@ -1,12 +1,14 @@
 require "test/unit"
 require "../concat_finder"
+
                   # potential enhancements
 #   - load from file
 #   - start from command line
-#   - inforce candidate profile on index creation
+#   - inforce candidate profile on index creation - DONE
 #   - loop to get the words list from command line
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
 #   - error handling (cant open file, no candidate, etc...)
+#        no candidate - DONE
 
 class ConcatFinderTest < Test::Unit::TestCase
 
@@ -22,6 +24,15 @@ class ConcatFinderTest < Test::Unit::TestCase
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal(['albums', 'pantin'], concat_finder.word_candidates)
+  end
+
+  def test_throw_an_error_when_zero_candidate
+    word_list = ['alli','al', 'pant', 'pantoufle']
+
+    assert_raise(ArgumentError) do
+      concat_finder = ConcatFinder.new(word_list)
+    end
+
   end
 
   def test_find_a_simple_concat
