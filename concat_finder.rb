@@ -4,11 +4,16 @@ class ConcatFinder
     attr_reader :sub_words_list
     attr_reader :word_candidates_list
 
-    def initialize(words = [])
-
-      @sub_words_list = words.find_all {|word|  word.size < 6 }
+    def initialize(io = [])
+      @sub_words_list = []
+      @word_candidates_list = []
+      io.each_line do |line |
+        line.chomp!
+        line.strip!
+        @sub_words_list << line  if  line.size < 6
+        @word_candidates_list << line  if line.size == 6
+      end
       @sub_words_set = @sub_words_list.to_set
-      @word_candidates_list = words.find_all {|word|  word.size == 6 }
 
       if @word_candidates_list.empty? then
         raise ArgumentError.new("No valid word candidate in list provided")

@@ -1,8 +1,9 @@
+require 'stringio'
 require "test/unit"
 require "../concat_finder"
 
                   # potential enhancements
-#   - load from file
+#   - load from file - move first to
 #   - start from command line
 #   - inforce candidate profile on index creation - DONE
 #   - loop to get the words list from command line
@@ -13,21 +14,21 @@ require "../concat_finder"
 class ConcatFinderTest < Test::Unit::TestCase
 
   def test_possible_sub_words_are_smaller_than_six_letter
-    word_list = ['al', 'bums', 'albums', 'pot', 'pantoufle']
+    word_list = StringIO.new("al\nbums\nalbums\npot\npantoufle")
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal(['al', 'bums','pot'], concat_finder.sub_words_list)
   end
 
   def test_restrict_candidate_to_six_letters_words
-    word_list = ['alli','albums', 'pantin', 'pantoufle']
+    word_list = StringIO.new("alli\nalbums\npantin\npantoufle")
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal(['albums', 'pantin'], concat_finder.word_candidates_list)
   end
 
   def test_throw_an_error_when_zero_candidate
-    word_list = ['alli','al', 'pant', 'pantoufle']
+    word_list = StringIO.new("alli\nal\npant\npantoufle")
 
     assert_raise(ArgumentError) do
       concat_finder = ConcatFinder.new(word_list)
@@ -36,7 +37,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_find_a_simple_concat
-    word_list = ['pan', 'tin', 'pantin', 'pouet']
+    word_list = StringIO.new("pan\ntin\npantin\npouet")
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal({'pantin' => [ 'pan', 'tin']}, concat_finder.find)
@@ -44,7 +45,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
     def test_two_concats
-    word_list = ['al', 'bums', 'albums', 'pouet','pan', 'tin', 'pantin']
+    word_list = StringIO.new("al\nbums\nalbums\npouet\npan\ntin\npantin")
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal({'albums' => [ 'al', 'bums'],'pantin' => [ 'pan', 'tin']}, concat_finder.find)
@@ -52,7 +53,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_ignore_partial_sub_words
-    word_list = ['pan', 'pantin', 'al', 'bums', 'albums' ]
+    word_list = StringIO.new("pan\npantin\nal\nbums\nalbums")
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
