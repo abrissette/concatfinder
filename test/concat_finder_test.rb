@@ -4,7 +4,7 @@ require "../concat_finder"
 
                   # potential enhancements
 #   - load from file - move first to
-#   - start from command line
+#   - start from command line - DONE
 #   - inforce candidate profile on index creation - DONE
 #   - loop to get the words list from command line
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
@@ -44,7 +44,7 @@ class ConcatFinderTest < Test::Unit::TestCase
 
   end
 
-    def test_two_concats
+  def test_two_concats
     word_list = StringIO.new("al\nbums\nalbums\npouet\npan\ntin\npantin")
     concat_finder = ConcatFinder.new(word_list)
 
@@ -60,5 +60,9 @@ class ConcatFinderTest < Test::Unit::TestCase
 
   end
 
+  def test_initialize_from_command_line
+    concat_finder = ConcatFinder.new
+
+  end
 end
 

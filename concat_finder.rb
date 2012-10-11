@@ -4,11 +4,11 @@ class ConcatFinder
     attr_reader :sub_words_list
     attr_reader :word_candidates_list
 
-    def initialize(io = [])
+    def initialize(io)
       @sub_words_list = []
       @word_candidates_list = []
+
       io.each_line do |line |
-        line.chomp!
         line.strip!
         @sub_words_list << line  if  line.size < 6
         @word_candidates_list << line  if line.size == 6
@@ -21,13 +21,13 @@ class ConcatFinder
     end
 
     def find
-      sub_list = Hash.new
+      result_hash = Hash.new
       @word_candidates_list.each do | word |
         if sub_words = find_concats(word) then
-          sub_list[word] = sub_words
+          result_hash[word] = sub_words
         end
       end
-      sub_list
+      result_hash
     end
 
   private
@@ -41,4 +41,6 @@ class ConcatFinder
         return nil
     end
 
+    finder = ConcatFinder.new(STDIN)
+    puts finder.find.inspect
 end
