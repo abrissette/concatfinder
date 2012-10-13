@@ -41,6 +41,4 @@ class ConcatFinder
         return nil
     end
 
-    finder = ConcatFinder.new(STDIN)
-    puts finder.find.inspect
 end

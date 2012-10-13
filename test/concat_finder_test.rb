@@ -6,7 +6,7 @@ require "../concat_finder"
 #   - load from file - move first to
 #   - start from command line - DONE
 #   - inforce candidate profile on index creation - DONE
-#   - loop to get the words list from command line
+#   - loop to get the words list from command line - DONE
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
 #   - error handling (cant open file, no candidate, etc...)
 #        no candidate - DONE
@@ -57,12 +57,7 @@ class ConcatFinderTest < Test::Unit::TestCase
     concat_finder = ConcatFinder.new(word_list)
 
     assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
-
   end
 
-  def test_initialize_from_command_line
-    concat_finder = ConcatFinder.new
-
-  end
 end
 
