@@ -8,11 +8,7 @@ class ConcatFinder
       @sub_words_set = Set.new
       @word_candidates_list = Array.new
 
-      io.each_line do |line |
-        line.strip!
-        @sub_words_set << line  if  line.size < 6
-        @word_candidates_list << line  if line.size == 6
-      end
+      parse_words_list(io)
 
       raise ArgumentError.new("No valid word candidate")  if @word_candidates_list.empty?
       raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
@@ -29,6 +25,15 @@ class ConcatFinder
     end
 
   private
+
+    def parse_words_list(io)
+      io.each_line do |line|
+        line.strip!
+        @sub_words_set << line if  line.size < 6
+        @word_candidates_list << line if line.size == 6
+      end
+    end
+
     def find_concats(word)
 
       @sub_words_set.each do | sub_word |
