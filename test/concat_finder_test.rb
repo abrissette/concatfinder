@@ -3,14 +3,9 @@ require "test/unit"
 require "../concat_finder"
 
                   # potential enhancements
-#   - load from file - move first to
-#   - start from command line - DONE
-#   - inforce candidate profile on index creation - DONE
-#   - loop to get the words list from command line - DONE
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
-#   - Identifiy & extract generic matcher interface of abstract (Extensibility))
+#   - Identifiy & extract generic matcher interface or abstract (Extensibility))
 #   - error handling (cant open file, no candidate, etc...)
-#        no candidate - DONE
 
 class ConcatFinderTest < Test::Unit::TestCase
 
@@ -69,11 +64,19 @@ class ConcatFinderTest < Test::Unit::TestCase
     assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
   end
 
+  def test_accept_double_sub_words
+    word_list = StringIO.new("tom\ntom\ntomtom")
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal({'tomtom' => [ 'tom', 'tom']}, concat_finder.find)
+  end
+
   def test_load_word_list_from_file
     File.open("wordlist_test.txt","r") do | file |
       concat_finder = ConcatFinder.new(file)
       assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
     end
   end
+
 end
 

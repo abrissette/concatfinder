@@ -1,0 +1,7 @@
+loading words from file wordlist.txt...
+parsing completed in 44.016 millisecondes
+6177 word candidates
+6997 possible subwords
+searching concats...
+search completed in 13457.924 millisecondes
+1137 words are concatenated of 2 smaller ones
