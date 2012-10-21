@@ -69,5 +69,11 @@ class ConcatFinderTest < Test::Unit::TestCase
     assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
   end
 
+  def test_load_word_list_from_file
+    File.open("wordlist_test.txt","r") do | file |
+      concat_finder = ConcatFinder.new(file)
+      assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
+    end
+  end
 end
 
