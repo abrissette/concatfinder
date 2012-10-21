@@ -1,23 +1,21 @@
 require 'set'
 
 class ConcatFinder
-    attr_reader :sub_words_list
+    attr_reader :sub_words_set
     attr_reader :word_candidates_list
 
     def initialize(io)
-      @sub_words_list = []
-      @word_candidates_list = []
+      @sub_words_set = Set.new
+      @word_candidates_list = Array.new
 
       io.each_line do |line |
         line.strip!
-        @sub_words_list << line  if  line.size < 6
+        @sub_words_set << line  if  line.size < 6
         @word_candidates_list << line  if line.size == 6
       end
-      @sub_words_set = @sub_words_list.to_set
 
-      if @word_candidates_list.empty? then
-        raise ArgumentError.new("No valid word candidate in list provided")
-      end
+      raise ArgumentError.new("No valid word candidate")  if @word_candidates_list.empty?
+      raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
     end
 
     def find
@@ -33,9 +31,13 @@ class ConcatFinder
   private
     def find_concats(word)
 
-      @sub_words_list.each do | sub_word |
+      @sub_words_set.each do | sub_word |
         if (word.include?(sub_word)) and (@sub_words_set.member?(word.sub(sub_word,""))) then
-          return Array.new([sub_word,(word.sub(sub_word,""))])
+          if word.index(sub_word) == 0 then
+            return Array.new([sub_word,(word.sub(sub_word,""))])
+          else
+            return Array.new([(word.sub(sub_word,"")),sub_word])
+          end
         end
       end
         return nil
