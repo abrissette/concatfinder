@@ -1,15 +1,41 @@
+I was very slow to start, was not sure to understand...
 
-was very slow to start, was not sure to understand...
+Regarding the three version, initial approach was to write a first workable and 'readable' version,
+then to branch from it in github when satisfied for 'speed' and 'extensibility'.
 
-as a first step, decide to make it works with one single word and its "subwords".
+as a first step, I decideD to make it work with one single word and its "subwords".
 
-first version was only displaying the list of subwords. second one was displaying the concatenated word along its subwords: a hash was introduce at this step to store result.
+first version was only displaying the list of subwords. second one was displaying
+the concatenated word along its subwords: a hash was introduce at this step to store result.
 
-regarding the three version, approach was to write a first workable and readable version, then to branch from it in github when satisfied for speed and etc.
+Then few other tests were added to cover some edge cases and real example
+
+A Set was then introduce to store possible subwords to speed the search.
+
+Along the way, I changed my mind and decided to go for the 'speed' version then to tag and from there move
+to readability and after extensibility.
+
+The 'pre parsing' concept was then introduce to minimize complete words list traversal.  Unfortunately,
+it did harm readability.
+
+Use of ruby IO was one of the coolest discovery in the exercise.  First it did ease testing a lot and second,
+it provided the file loading support out of the box. In fact, did not really had to do something for
+file support, appart testing the fact that it was already working :-)
+
+Exploring ruby collections was also really interesting.  The many ways to iterate and how to use code block
+in this context was very refreshing.
 
 ***
 
-look at the flyweigh pattern when it comes to the performance version
-http://en.wikipedia.org/wiki/Flyweight_pattern
+Extensibility
+    option #1
+        Use Strategy pattern with concrete implementation for Parse and Find
+        Also move 'common' stuff in parent (ex: file opening)
 
-look at the Strategy and Template method pattern for the extensible version
+Readability
+    options
+        remove the Parse method and re-use the find and File.foreach to load (see earlier versions)
+
+        improve readability of find_concats by removing necessity of two return (keep lcopy of list)
+         and/or
+
