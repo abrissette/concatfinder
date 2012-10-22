@@ -1,0 +1,9 @@
+******* STATS **********
+loading words from file wordlist.txt...
+parsing completed in 43.64 millisecondes
+6177 word candidates
+6997 possible subwords
+searching concats...
+search completed in 13256.347 millisecondes
+1137 words are concatenated of 2 smaller ones
+Total time for program is 13300.092 millisecondes
