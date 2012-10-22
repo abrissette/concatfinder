@@ -71,6 +71,14 @@ class ConcatFinderTest < Test::Unit::TestCase
     assert_equal({'tomtom' => [ 'tom', 'tom']}, concat_finder.find)
   end
 
+  def test_insure_concats_are_complete_word
+    word_list = StringIO.new("routed\nred\nout")
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal({}, concat_finder.find)
+
+  end
+
   def test_load_word_list_from_file
     File.open("wordlist_test.txt","r") do | file |
       concat_finder = ConcatFinder.new(file)
