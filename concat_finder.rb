@@ -37,15 +37,24 @@ class ConcatFinder
     def find_concats(word)
 
       @sub_words_set.each do | sub_word |
-        if (word.include?(sub_word)) and (@sub_words_set.member?(word.sub(sub_word,""))) then
-          if word.index(sub_word) == 0 then
-            return Array.new([sub_word,(word.sub(sub_word,""))])
+        if (word.include?(sub_word)) then
+          sub_word_index = word.index(sub_word)
+
+          if sub_word_index == 0 then
+            first_part = sub_word
+            second_part = word[sub_word.size,word.size-sub_word.size] if @sub_words_set.member?(word[sub_word.size,word.size-sub_word.size])
           else
-            return Array.new([(word.sub(sub_word,"")),sub_word])
+            second_part = sub_word
+            first_part = word[0,word.size-sub_word.size] if @sub_words_set.member?(word[0,word.size-sub_word.size])
+          end
+
+          if first_part and second_part then
+            return Array.new([first_part,second_part])
           end
         end
       end
-        return nil
+
+      return nil
     end
 
 end
