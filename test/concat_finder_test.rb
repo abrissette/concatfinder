@@ -3,6 +3,7 @@ require "test/unit"
 require "../concat_finder"
 
                   # potential enhancements
+#   - add a standard git Readme file for instruction (usability) 
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
 #   - Identifiy & extract generic matcher interface or abstract (Extensibility))
 #   - error handling (cant open file, no candidate, etc...)
@@ -49,6 +50,13 @@ class ConcatFinderTest < Test::Unit::TestCase
 
   end
 
+  def test_does_not_consider_subwords_in_the_middle
+    word_list = StringIO.new("neatly\nat\nneat")
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal({}, concat_finder.find)
+  end
+
   def test_two_concats
     word_list = StringIO.new("al\nbums\nalbums\npouet\npan\ntin\npantin")
     concat_finder = ConcatFinder.new(word_list)
@@ -80,7 +88,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_load_word_list_from_file
-    File.open("wordlist_test.txt","r") do | file |
+    File.open(File.dirname(__FILE__) + "/wordlist_test.txt","r") do | file |
       concat_finder = ConcatFinder.new(file)
       assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
     end

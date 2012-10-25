@@ -38,14 +38,16 @@ class ConcatFinder
 
       @sub_words_set.each do | sub_word |
         if (word.include?(sub_word)) then
-          sub_word_index = word.index(sub_word)
+          index = word.index(sub_word)
 
-          if sub_word_index == 0 then
+          if index == 0 then
             first_part = sub_word
-            second_part = word[sub_word.size,word.size-sub_word.size] if @sub_words_set.member?(word[sub_word.size,word.size-sub_word.size])
+            remaining = word[first_part.size,word.size - first_part.size]
+            second_part = remaining if @sub_words_set.member?(remaining)
           else
             second_part = sub_word
-            first_part = word[0,word.size-sub_word.size] if @sub_words_set.member?(word[0,word.size-sub_word.size])
+            begining = word[0,word.size - second_part.size]
+            first_part = begining if @sub_words_set.member?(begining) and (begining+second_part) == word
           end
 
           if first_part and second_part then
