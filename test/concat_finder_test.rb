@@ -3,10 +3,12 @@ require "test/unit"
 require "../concat_finder"
 
                   # potential enhancements
-#   - add a standard git Readme file for instruction (usability) 
+#   - do an exploratory test to look in all 6 letters that ahve not been taken to
+#   see if there are concats forgoten
 #   - factor matcher with method/bloc like matches_for_six_letters_concatenated
 #   - Identifiy & extract generic matcher interface or abstract (Extensibility))
 #   - error handling (cant open file, no candidate, etc...)
+#   - add a standard git Readme file for instruction (usability)   - DONE -
 
 class ConcatFinderTest < Test::Unit::TestCase
 
@@ -79,6 +81,13 @@ class ConcatFinderTest < Test::Unit::TestCase
     assert_equal({'tomtom' => [ 'tom', 'tom']}, concat_finder.find)
   end
 
+  def test_ignore_case
+    word_list = StringIO.new("Weston\nwest\non")
+    concat_finder = ConcatFinder.new(word_list)
+
+    assert_equal({'weston' => [ 'west', 'on']}, concat_finder.find)
+  end
+
   def test_insure_concats_are_complete_word
     word_list = StringIO.new("routed\nred\nout")
     concat_finder = ConcatFinder.new(word_list)
@@ -88,7 +97,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_load_word_list_from_file
-    File.open(File.dirname(__FILE__) + "/wordlist_test.txt","r") do | file |
+    File.open("wordlist_test.txt","r") do | file |
       concat_finder = ConcatFinder.new(file)
       assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
     end
