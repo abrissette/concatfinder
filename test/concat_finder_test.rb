@@ -85,7 +85,7 @@ class ConcatFinderTest < Test::Unit::TestCase
     word_list = StringIO.new("Weston\nwest\non")
     concat_finder = ConcatFinder.new(word_list)
 
-    assert_equal({'weston' => [ 'west', 'on']}, concat_finder.find)
+    assert_equal({'Weston' => [ 'west', 'on']}, concat_finder.find)
   end
 
   def test_insure_concats_are_complete_word

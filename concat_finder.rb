@@ -37,6 +37,9 @@ class ConcatFinder
     def find_concats(word)
 
       @sub_words_set.each do | sub_word |
+        word = word.downcase
+        sub_word = sub_word.downcase
+
         if (word.include?(sub_word)) then
           index = word.index(sub_word)
 
