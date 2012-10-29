@@ -25,6 +25,13 @@ file support, appart testing the fact that it was already working :-)
 Exploring ruby collections was also really interesting.  The many ways to iterate and how to use code block
 in this context was very refreshing.
 
+After first version I was satisfied of (tag v1.s) I decide to do some exploratory test to visually see the
+list of potential words that were rejected by my program.  I create a small script on the side to
+compare to "make the difference" between the two list.  Surprise! I was not taking care of Upper/Lower case...
+
+Made another interesting discovery on the language: the capacity to substract two set of values to
+identify differences.
+
 ***
 
 Extensibility
