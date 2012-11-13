@@ -1,40 +1,43 @@
 require 'concat_finder'
+require 'benchmark'
 
-  program_start = Time.now
-  if (ARGV.size == 0) or (!File.exists?(ARGV[0])) then
-    abort("please provide a valid file name")
-  end
+    filename = ARGV[0]
+    report = String.new
 
-  filename = ARGV[0]
-  report = String.new
+    program_stats = Benchmark.measure do 
+        if (ARGV.size == 0) or (!File.exists?(ARGV[0])) then
+            abort("please provide a valid file name")
+        end
 
-  File.open(filename,"r") do | file |
 
-    report += "******* STATS **********\n"
-    report += "loading words from file " + filename +  "...\n"
-    time_stamp_start = Time.now
-    concat_finder = ConcatFinder.new(file)
-    time_stamp_stop = Time.now
-    report += "parsing completed in #{(time_stamp_stop - time_stamp_start)*1000} millisecondes\n"
-    report += "#{concat_finder.word_candidates_list.size} word candidates\n"
-    report += "#{concat_finder.sub_words_set.size} possible subwords\n"
+        File.open(filename,"r") do | file |
+            concat_finder = nil
+            result = nil
 
-    report += "searching concats...\n"
-    time_stamp_start = Time.now
-    result = concat_finder.find
-    time_stamp_stop = Time.now
-    report +=  "search completed in #{(time_stamp_stop - time_stamp_start)*1000} millisecondes\n"
-    report +=  "#{result.size} words are concatenated of 2 smaller ones\n"
+            report += "******* STATS **********\n"
+            report += "loading words from file " + filename +  "...\n"
+            method_stats = Benchmark.measure do 
+                concat_finder = ConcatFinder.new(file)
+            end
+            report += "parsing completed in #{method_stats.real*1000} millisecondes\n"
+            report += "#{concat_finder.word_candidates_list.size} word candidates\n"
+            report += "#{concat_finder.sub_words_set.size} possible subwords\n"
+    
+            report += "searching concats...\n"
+            method_stats = Benchmark.measure do 
+                result = concat_finder.find
+            end
+            report +=  "search completed in #{method_stats.real*1000} millisecondes\n"
+            report +=  "#{result.size} words are concatenated of 2 smaller ones\n"
 
-    program_stop = Time.now
-    report +=  "Total time for program is #{(program_stop - program_start)*1000} millisecondes\n"
+            result.each { | word, concats | puts "#{word}->#{concats.inspect}\n" }
+        end
+    end 
 
-    result.each { | word, concats | puts "#{word}->#{concats.inspect}\n" }
+    report +=  "Total time for program is #{program_stats.real*1000} millisecondes\n"
 
-  end
-
-  if ARGV[1] == "-s" then
-    File.open(filename + ".stats", 'w') do |f|
-      f.puts report
+    if ARGV[1] == "-s" then
+        File.open(filename + ".stats", 'w') do |f|
+            f.puts report
+        end
     end
-  end
