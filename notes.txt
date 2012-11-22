@@ -32,6 +32,7 @@ compare to "make the difference" between the two list.  Surprise! I was not taki
 Made another interesting discovery on the language: the capacity to substract two set of values to
 identify differences.
 
+
 ***
 
 Extensibility
@@ -39,6 +40,8 @@ Extensibility
         Use Strategy pattern with concrete implementation for Parse and Find
         Also move 'common' stuff in parent (ex: file opening)
 
+        goal: being able to create a new simple kind of Finder while re-using the
+         maximum amount of code
 Readability
     options
         remove the Parse method and re-use the find and File.foreach to load (see earlier versions)
