@@ -1,4 +1,4 @@
-class ColorFinder
+class WordFinder
 
   def initialize
     @dictionary = Array.new
@@ -11,8 +11,8 @@ class ColorFinder
       end
   end
 
-  def find
-    @dictionary.find_all {|c| /rouge|vert|bleu/ =~ c }
+  def find(regex)
+    @dictionary.find_all {|c| regex =~ c }
   end
 
 
