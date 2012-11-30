@@ -2,21 +2,17 @@ require 'set'
 
 class ConcatFinder
     attr_reader :sub_words_set
-    attr_reader :word_candidates_list
+    attr_reader :dictionary
 
-    def initialize(io)
+    def initialize()
       @sub_words_set = Set.new
-      @word_candidates_list = Array.new
+      @dictionary = Array.new
 
-      parse_words_list(io)
-
-      raise ArgumentError.new("No valid word candidate")  if @word_candidates_list.empty?
-      raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
     end
 
     def find
       result_hash = Hash.new
-      @word_candidates_list.each do | word |
+      @dictionary.each do | word |
         if sub_words = find_concats(word) then
           result_hash[word] = sub_words
         end
@@ -24,15 +20,19 @@ class ConcatFinder
       result_hash
     end
 
-  private
 
-    def parse_words_list(io)
+    def load(io)
       io.each_line do |line|
         line.strip!
         @sub_words_set << line if  line.size < 6
-        @word_candidates_list << line if line.size == 6
+        @dictionary << line if line.size == 6
       end
+
+      raise ArgumentError.new("No valid word candidate")  if @dictionary.empty?
+      raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
     end
+
+private
 
     def find_concats(word)
 

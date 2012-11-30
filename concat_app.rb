@@ -20,7 +20,7 @@ require 'benchmark'
                 concat_finder = ConcatFinder.new(file)
             end
             report += "parsing completed in #{method_stats.real*1000} millisecondes\n"
-            report += "#{concat_finder.word_candidates_list.size} word candidates\n"
+            report += "#{concat_finder.dictionary.size} word candidates\n"
             report += "#{concat_finder.sub_words_set.size} possible subwords\n"
     
             report += "searching concats...\n"
