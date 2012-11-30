@@ -1,21 +1,19 @@
 class ColorFinder
 
-  def initialize(io)
+  def initialize
     @dictionary = Array.new
+  end
 
-    parse_words_list(io)
-
+  def load(io)
+      io.each_line do |line|
+        line.strip!
+        @dictionary << line
+      end
   end
 
   def find
     @dictionary.find_all {|c| /rouge|vert|bleu/ =~ c }
   end
 
-  private
-  def parse_words_list(io)
-      io.each_line do |line|
-        line.strip!
-        @dictionary << line
-      end
-    end
+
 end

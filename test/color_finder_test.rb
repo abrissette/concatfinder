@@ -4,19 +4,42 @@ require "../color_finder"
 
 class ColorFinderTest < Test::Unit::TestCase
 
-  def test_create_a_simple_color_finder
-    word_list = StringIO.new("patate\nbleu\npomme")
+  def setup
+    @word_list = StringIO.new("patate\nbleu\npomme")
+  end
 
-    finder = ColorFinder.new(word_list)
+  def teardown
+    @word_list = nil
+  end
+
+  def test_create_a_simple_color_finder
+
+    finder = ColorFinder.new
+
+    finder.load(@word_list)
+
+    finder.find
 
     assert_not_equal(nil,finder)
   end
 
   def test_find_basic_color
-    word_list = StringIO.new("patate\nbleu\npomme")
+    finder = ColorFinder.new
 
-    finder = ColorFinder.new(word_list)
+    finder.load(@word_list)
 
     assert_equal(["bleu"],finder.find)
+
+  end
+
+  def test_find_two_basic_color
+
+    @word_list = StringIO.new("rouge\nbleu\npomme")
+
+    finder = ColorFinder.new
+
+    finder.load(@word_list)
+
+    assert_equal(['rouge','bleu'],finder.find)
   end
 end
