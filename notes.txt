@@ -42,6 +42,7 @@ Extensibility
 
         goal: being able to create a new simple kind of Finder while re-using the
          maximum amount of code
+
 Readability
     options
         remove the Parse method and re-use the find and File.foreach to load (see earlier versions)

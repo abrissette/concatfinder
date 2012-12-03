@@ -1,6 +1,6 @@
 require 'stringio'
-require "test/unit"
-require "../concat_finder"
+require 'test/unit'
+require 'concat_finder'
 
                   # potential enhancements
 #   - do an exploratory test to look in all 6 letters that ahve not been taken to
@@ -30,11 +30,12 @@ class ConcatFinderTest < Test::Unit::TestCase
     assert_equal(['albums', 'pantin'], @concat_finder.dictionary)
   end
 
-  def test_throw_an_error_when_zero_candidate
+  def test_throw_an_error_when_trying_to_find_in_empty_dictionary
     word_list = StringIO.new("alli\nal\npant\npantoufle")
+    @concat_finder.load(word_list)
 
     assert_raise(ArgumentError) do
-      @concat_finder.load(word_list)
+      @concat_finder.find
     end
 
   end
@@ -109,7 +110,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_load_word_list_from_file
-    File.open("wordlist_test.txt","r") do | file |
+    File.open("test/wordlist_test.txt","r") do | file |
       @concat_finder.load(file)
       assert_equal({'albums' => [ 'al', 'bums']}, @concat_finder.find)
     end

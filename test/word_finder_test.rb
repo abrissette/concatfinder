@@ -1,5 +1,5 @@
-require "stringio"
-require "test/unit"
+require 'stringio'
+require 'test/unit'
 require "../word_finder"
 
 class WordFinderTest < Test::Unit::TestCase
