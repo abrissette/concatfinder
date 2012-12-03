@@ -9,7 +9,6 @@ require 'benchmark'
             abort("please provide a valid file name")
         end
 
-
         File.open(filename,"r") do | file |
             concat_finder = nil
             result = nil
@@ -17,7 +16,8 @@ require 'benchmark'
             report += "******* STATS **********\n"
             report += "loading words from file " + filename +  "...\n"
             method_stats = Benchmark.measure do 
-                concat_finder = ConcatFinder.new(file)
+                concat_finder = ConcatFinder.new
+                concat_finder.load(file)
             end
             report += "parsing completed in #{method_stats.real*1000} millisecondes\n"
             report += "#{concat_finder.dictionary.size} word candidates\n"

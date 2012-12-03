@@ -30,7 +30,6 @@ class ConcatFinder < WordFinder
       result_hash
     end
 
-
 private
     def preparse
       pre_parsed_dictionary = Array.new

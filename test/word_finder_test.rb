@@ -6,7 +6,7 @@ class WordFinderTest < Test::Unit::TestCase
 
   def setup
     @word_list = StringIO.new("patate\nbleu\npomme")
-    @regex = /rouge|vert|bleu/
+    @rgb_color_regex = /rouge|vert|bleu/
   end
 
   def teardown
@@ -19,7 +19,7 @@ class WordFinderTest < Test::Unit::TestCase
 
     color_finder.load(@word_list)
 
-    color_finder.find(@regex)
+    color_finder.find(@rgb_color_regex)
 
     assert_not_equal(nil,color_finder)
   end
@@ -29,7 +29,7 @@ class WordFinderTest < Test::Unit::TestCase
 
     color_finder.load(@word_list)
 
-    assert_equal(["bleu"],color_finder.find(@regex))
+    assert_equal(["bleu"],color_finder.find(@rgb_color_regex))
 
   end
 
@@ -41,6 +41,6 @@ class WordFinderTest < Test::Unit::TestCase
 
     color_finder.load(@word_list)
 
-    assert_equal(['rouge','bleu'],color_finder.find(@regex))
+    assert_equal(['rouge','bleu'],color_finder.find(@rgb_color_regex))
   end
 end
