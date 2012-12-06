@@ -39,15 +39,15 @@ inheritance. So I created a new branch in git and initially guide myself with th
 
 Although this solution finally work and I was able to re-use part of the code to create
 another type of finder (word finder with regex), I realize that it was not so beneficial
-to try to re-use because many element to be re-use were part of methods but not complete
+regarding re-use because many element to be re-use were part of methods but not complete
 method.
 
-Of course, this version showed a big drop in performance/speed
+Of course, this version showed a big drop in performance/speed because with this design the dictionary is
+parse two time
 
 *Readability*
     options
         remove the Parse method and re-use the find and File.foreach to load (see earlier versions)
 
         improve readability of find_concats by removing necessity of two return (keep lcopy of list)
-         and/or
 
