@@ -38,7 +38,7 @@ inheritance. So I created a new branch in git and initially guide myself with th
     http://www.codercaste.com/2011/09/27/the-strategy-design-pattern-in-ruby/
 
 Although this solution finally work and I was able to re-use part of the code to create
-another type of finder (word finder with regex), I realize that it was not so beneficial
+another type of finder (word finder with regex), I realize that hierarchy was not so beneficial
 regarding re-use because many element to be re-use were part of methods but not complete
 method.
 

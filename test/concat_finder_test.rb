@@ -2,12 +2,6 @@ require 'stringio'
 require 'test/unit'
 require 'concat_finder'
 
-                  # potential enhancements
-
-#   - insure test are in the right class; general ones word_finder_test etc...
-#   - factor matcher with method/bloc like matches_for_six_letters_concatenated
-#   - error handling (cant open file, no candidate, etc...)
-
 class ConcatFinderTest < Test::Unit::TestCase
   def setup
         @concat_finder = ConcatFinder.new

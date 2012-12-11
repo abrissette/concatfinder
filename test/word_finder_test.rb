@@ -69,4 +69,11 @@ class WordFinderTest < Test::Unit::TestCase
     end
   end
 
+  def test_throw_error_when_invalid_io
+    invalid_io = nil
+
+    assert_raise(ArgumentError) do
+      @rgb_color_finder.load(invalid_io)
+    end
+  end
 end

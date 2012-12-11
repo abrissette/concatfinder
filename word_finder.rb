@@ -7,10 +7,13 @@ class WordFinder
   end
 
   def load(io)
-      io.each_line do |line|
-        line.strip!
-        @dictionary << line
-      end
+
+    raise ArgumentError.new("invalid IO as input") if !(io.respond_to?(:read))
+
+    io.each_line do |line|
+      line.strip!
+      @dictionary << line
+    end
 
   end
 
