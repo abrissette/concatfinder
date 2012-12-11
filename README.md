@@ -1,8 +1,8 @@
 Concat Finder
 =============
 
-Concat Finder is a small program to find word made of two concatenated smaller words. 
-The way it work is that you call it at the command line with a file name then it search 
+Concat Finder is a small program to find words made of two concatenated smaller words. 
+The way it works is that you call it at the command line with a file name then it searches 
 for words that are a concatenation of two smaller words in the same dictionary.  
 The resulting list of word with their respective subwords are outputed to the console.
 This program is the result of a coding exercise I tried (Kata Eight: Conflicting Objectives)
