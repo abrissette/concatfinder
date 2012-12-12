@@ -26,23 +26,29 @@ Exploring ruby collections was also really interesting.  The many ways to iterat
 in this context was very refreshing.
 
 After first version I was satisfied of (tag v1.s) I decide to do some exploratory test to visually see the
-list of potential words that were rejected by my program.  I create a small script on the side to
-compare to "make the difference" between the two list.  Surprise! I was not taking care of Upper/Lower case...
+list of potential words that were rejected by my program.  I create a small script on the side (explore.rb) to
+compare to make like a "diff" between the two list.  Surprise! I was not taking care of Upper/Lower case...
 
 Made another interesting discovery on the language: the capacity to substract two set of values to
 identify differences.
 
-***
+*Extensibility*
+For the extensibility version I decided to try to implemented something like a "Strategy pattern" using
+inheritance. So I created a new branch in git and initially guide myself with this post:
+    http://www.codercaste.com/2011/09/27/the-strategy-design-pattern-in-ruby/
 
-Extensibility
-    option #1
-        Use Strategy pattern with concrete implementation for Parse and Find
-        Also move 'common' stuff in parent (ex: file opening)
+Although this solution finally work and I was able to re-use part of the code to create
+another type of finder (word finder with regex), I realize that hierarchy was not so beneficial
+regarding re-use because many element to be re-use were part of methods but not complete
+method.
 
-Readability
+Of course, this version showed a big drop in performance/speed for the "loading phase" because with this
+design the dictionary is parse two times. On the other side this does not have a big impact on overall performance
+ of the program as "search phase" always take way more time.
+
+*Readability*
     options
-        remove the Parse method and re-use the find and File.foreach to load (see earlier versions)
+        remove single pass 'method' and re-use the find_all and File.foreach to load (see earlier versions)
 
         improve readability of find_concats by removing necessity of two return (keep lcopy of list)
-         and/or
 

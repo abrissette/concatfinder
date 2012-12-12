@@ -3,34 +3,39 @@ require "test/unit"
 require "../concat_finder"
 
                   # potential enhancements
-#   - do an exploratory test to look in all 6 letters that ahve not been taken to
-#   see if there are concats forgoten
-#   - factor matcher with method/bloc like matches_for_six_letters_concatenated
-#   - Identifiy & extract generic matcher interface or abstract (Extensibility))
-#   - error handling (cant open file, no candidate, etc...)
-#   - add a standard git Readme file for instruction (usability)   - DONE -
+#remove single pass 'method' and re-use the find_all and File.foreach to load (see earlier versions)
+#extract load in a seperate method
+#improve readability of find_concats by removing necessity of two return (keep lcopy of list)
 
 class ConcatFinderTest < Test::Unit::TestCase
 
+  def setup
+    @finder = ConcatFinder.new
+  end
+
+  def teardown
+    @finder = nil
+  end
+
   def test_possible_sub_words_are_smaller_than_six_letter
     word_list = StringIO.new("al\nbums\nalbums\npot\npantoufle")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal(['al', 'bums','pot'].to_set, concat_finder.sub_words_set)
+    assert_equal(['al', 'bums','pot'].to_set, @finder.sub_words_set)
   end
 
   def test_restrict_candidate_to_six_letters_words
     word_list = StringIO.new("alli\nalbums\npantin\npantoufle")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal(['albums', 'pantin'], concat_finder.word_candidates_list)
+    assert_equal(['albums', 'pantin'], @finder.word_candidates_list)
   end
 
   def test_throw_an_error_when_zero_candidate
     word_list = StringIO.new("alli\nal\npant\npantoufle")
 
     assert_raise(ArgumentError) do
-      concat_finder = ConcatFinder.new(word_list)
+      @finder = @finder.load(word_list)
     end
 
   end
@@ -39,67 +44,67 @@ class ConcatFinderTest < Test::Unit::TestCase
     word_list = StringIO.new("pantin\nalbums")
 
     assert_raise(ArgumentError) do
-      concat_finder = ConcatFinder.new(word_list)
+      @finder = @finder.load(word_list)
     end
 
   end
 
   def test_find_a_simple_concat
     word_list = StringIO.new("pan\ntin\npantin\npouet")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({'pantin' => [ 'pan', 'tin']}, concat_finder.find)
+    assert_equal({'pantin' => [ 'pan', 'tin']}, @finder.find)
 
   end
 
   def test_does_not_consider_subwords_in_the_middle
     word_list = StringIO.new("neatly\nat\nneat")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({}, concat_finder.find)
+    assert_equal({}, @finder.find)
   end
 
   def test_two_concats
     word_list = StringIO.new("al\nbums\nalbums\npouet\npan\ntin\npantin")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({'albums' => [ 'al', 'bums'],'pantin' => [ 'pan', 'tin']}, concat_finder.find)
+    assert_equal({'albums' => [ 'al', 'bums'],'pantin' => [ 'pan', 'tin']}, @finder.find)
 
   end
 
   def test_ignore_partial_sub_words
     word_list = StringIO.new("pan\npantin\nal\nbums\nalbums")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
+    assert_equal({'albums' => [ 'al', 'bums']}, @finder.find)
   end
 
   def test_accept_double_sub_words
     word_list = StringIO.new("tom\ntom\ntomtom")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({'tomtom' => [ 'tom', 'tom']}, concat_finder.find)
+    assert_equal({'tomtom' => [ 'tom', 'tom']}, @finder.find)
   end
 
   def test_ignore_case
     word_list = StringIO.new("Weston\nwest\non")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({'Weston' => [ 'west', 'on']}, concat_finder.find)
+    assert_equal({'Weston' => [ 'west', 'on']}, @finder.find)
   end
 
   def test_insure_concats_are_complete_word
     word_list = StringIO.new("routed\nred\nout")
-    concat_finder = ConcatFinder.new(word_list)
+    @finder.load(word_list)
 
-    assert_equal({}, concat_finder.find)
+    assert_equal({}, @finder.find)
 
   end
 
   def test_load_word_list_from_file
     File.open("wordlist_test.txt","r") do | file |
-      concat_finder = ConcatFinder.new(file)
-      assert_equal({'albums' => [ 'al', 'bums']}, concat_finder.find)
+      @finder .load(file)
+      assert_equal({'albums' => [ 'al', 'bums']}, @finder.find)
     end
   end
 
