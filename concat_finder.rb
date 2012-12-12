@@ -10,13 +10,19 @@ class ConcatFinder < WordFinder
 
     end
 
-    def load(io)
+    def load(io, word_size = 6)
+      pre_parsed_dictionary = Array.new
 
-        super(io)
-        preparse
+      super(io)
 
-        raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
+      @dictionary.each do |line|
+        @sub_words_set << line if  line.size < word_size
+        pre_parsed_dictionary << line if line.size == word_size
       end
+      @dictionary = pre_parsed_dictionary
+
+      raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
+    end
 
     def find
       raise ArgumentError.new("dictionary is empty")  if @dictionary.empty?
@@ -31,15 +37,6 @@ class ConcatFinder < WordFinder
     end
 
 private
-    def preparse
-      pre_parsed_dictionary = Array.new
-
-      @dictionary.each do |line|
-        @sub_words_set << line if  line.size < 6
-        pre_parsed_dictionary << line if line.size == 6
-      end
-      @dictionary = pre_parsed_dictionary
-    end
 
     def find_concats(word)
 

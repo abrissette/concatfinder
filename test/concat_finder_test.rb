@@ -7,26 +7,36 @@ class ConcatFinderTest < Test::Unit::TestCase
         @concat_finder = ConcatFinder.new
   end
 
-  def test_possible_sub_words_are_smaller_than_six_letter
+  def test_default_size_for_candidate_is_six_letters
     word_list = StringIO.new("al\nbums\nalbums\npot\npantoufle")
 
     @concat_finder.load(word_list)
 
+    assert_equal(['albums'].to_set, @concat_finder.dictionary.to_set)
+  end
+
+  def test_possible_sub_words_are_smaller_than_candidates
+    word_list = StringIO.new("al\nbums\nalbums\npot\npantoufle\npantin")
+
+    @concat_finder.load(word_list,6)
+
     assert_equal(['al', 'bums','pot'].to_set, @concat_finder.sub_words_set)
   end
 
-  def test_restrict_candidate_to_six_letters_words
-    word_list = StringIO.new("alli\nalbums\npantin\npantoufle")
-    @concat_finder.load(word_list)
+  def test_with_non_default_candidate_size
+    word_list = StringIO.new("car\ngo\nyes\nCargo")
+    @concat_finder.load(word_list,5)
 
-    assert_equal(['albums', 'pantin'], @concat_finder.dictionary)
+    assert_equal(['Cargo'], @concat_finder.dictionary)
+    assert_equal(['car', 'go','yes'].to_set, @concat_finder.sub_words_set)
+
   end
 
   def test_throw_an_error_when_no_subwords
     word_list = StringIO.new("pantin\nalbums")
 
     assert_raise(ArgumentError) do
-      @concat_finder.load(word_list)
+      @concat_finder.load(word_list,6)
     end
 
   end
