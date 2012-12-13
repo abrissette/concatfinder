@@ -3,7 +3,6 @@ require "test/unit"
 require "../concat_finder"
 
                   # potential enhancements
-#remove single pass 'method' and re-use the find_all and File.foreach to load (see earlier versions)
 #improve readability of find_concats by removing necessity of two return (keep lcopy of list)
 
 class ConcatFinderTest < Test::Unit::TestCase
@@ -33,7 +32,7 @@ class ConcatFinderTest < Test::Unit::TestCase
   end
 
   def test_throw_an_error_when_not_enough_potential_subwords
-    word_list = StringIO.new("pan\npantin\nalbums")
+    word_list = StringIO.new("pantoute\npantin\nalbums")
 
     assert_raise(ArgumentError) do
       @finder = @finder.load(word_list)

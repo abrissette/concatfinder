@@ -17,14 +17,14 @@ class ConcatFinder
         raise ArgumentError.new("No valid word candidate")
        end
 
-       if @dictionary.keys.select {|subword| subword.size < 6 }.size < 2 then
+       if @dictionary.keys.select {|subword| subword.size < 6 }.size < 1 then
         raise ArgumentError.new("No potential subword")
        end
     end
 
     def find
       result_hash = Hash.new
-      @dictionary.each do | word |
+      @dictionary.keys.each do | word |
 
         if word.size == 6 then
 
@@ -40,7 +40,7 @@ class ConcatFinder
 
     def find_concats(word)
 
-      @dictionary.each do | sub_word |
+      @dictionary.keys.each do | sub_word |
 
         if sub_word.size < 6 then
 
