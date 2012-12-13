@@ -4,7 +4,6 @@ require "../concat_finder"
 
                   # potential enhancements
 #remove single pass 'method' and re-use the find_all and File.foreach to load (see earlier versions)
-#extract load in a seperate method
 #improve readability of find_concats by removing necessity of two return (keep lcopy of list)
 
 class ConcatFinderTest < Test::Unit::TestCase
@@ -17,18 +16,11 @@ class ConcatFinderTest < Test::Unit::TestCase
     @finder = nil
   end
 
-  def test_possible_sub_words_are_smaller_than_six_letter
+  def test_only_load_in_dictionary_six_letter_words_or_smaller
     word_list = StringIO.new("al\nbums\nalbums\npot\npantoufle")
     @finder.load(word_list)
 
-    assert_equal(['al', 'bums','pot'].to_set, @finder.sub_words_set)
-  end
-
-  def test_restrict_candidate_to_six_letters_words
-    word_list = StringIO.new("alli\nalbums\npantin\npantoufle")
-    @finder.load(word_list)
-
-    assert_equal(['albums', 'pantin'], @finder.word_candidates_list)
+    assert_equal(['al', 'bums','albums','pot',].to_set, @finder.dictionary.keys.to_set)
   end
 
   def test_throw_an_error_when_zero_candidate
@@ -40,8 +32,8 @@ class ConcatFinderTest < Test::Unit::TestCase
 
   end
 
-  def test_throw_an_error_when_no_subwords
-    word_list = StringIO.new("pantin\nalbums")
+  def test_throw_an_error_when_not_enough_potential_subwords
+    word_list = StringIO.new("pan\npantin\nalbums")
 
     assert_raise(ArgumentError) do
       @finder = @finder.load(word_list)

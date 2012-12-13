@@ -1,62 +1,71 @@
 require 'set'
 
 class ConcatFinder
-    attr_reader :sub_words_set
-    attr_reader :word_candidates_list
+    attr_reader :dictionary
 
     def initialize
-      @sub_words_set = Set.new
-      @word_candidates_list = Array.new
+      @dictionary = Hash.new
+    end
 
+    def load(io)
+       io.each_line do |line|
+         line.strip!
+         @dictionary[line] = true if line.size <= 6
+       end
+
+       if @dictionary.keys.select {|word| word.size == 6 }.size == 0 then
+        raise ArgumentError.new("No valid word candidate")
+       end
+
+       if @dictionary.keys.select {|subword| subword.size < 6 }.size < 2 then
+        raise ArgumentError.new("No potential subword")
+       end
     end
 
     def find
       result_hash = Hash.new
-      @word_candidates_list.each do | word |
-        if sub_words = find_concats(word) then
-          result_hash[word] = sub_words
+      @dictionary.each do | word |
+
+        if word.size == 6 then
+
+          if sub_words = find_concats(word) then
+            result_hash[word] = sub_words
+          end
         end
       end
       result_hash
-    end
-
-    def load(io)
-      io.each_line do |line|
-        line.strip!
-        @sub_words_set << line if  line.size < 6
-        @word_candidates_list << line if line.size == 6
-      end
-
-      raise ArgumentError.new("No valid word candidate")  if @word_candidates_list.empty?
-      raise ArgumentError.new("No valid subwords")  if @sub_words_set.empty?
-
     end
 
   private
 
     def find_concats(word)
 
-      @sub_words_set.each do | sub_word |
-        word = word.downcase
-        sub_word = sub_word.downcase
+      @dictionary.each do | sub_word |
 
-        if (word.include?(sub_word)) then
-          index = word.index(sub_word)
+        if sub_word.size < 6 then
 
-          if index == 0 then
-            first_part = sub_word
-            remaining = word[first_part.size,word.size - first_part.size]
-            second_part = remaining if @sub_words_set.member?(remaining)
-          else
-            second_part = sub_word
-            begining = word[0,word.size - second_part.size]
-            first_part = begining if @sub_words_set.member?(begining) and (begining+second_part) == word
-          end
+          word = word.downcase
+          sub_word = sub_word.downcase
 
-          if first_part and second_part then
-            return Array.new([first_part,second_part])
+          if (word.include?(sub_word)) then
+            index = word.index(sub_word)
+
+            if index == 0 then
+              first_part = sub_word
+              remaining = word[first_part.size,word.size - first_part.size]
+              second_part = remaining if @dictionary.member?(remaining)
+            else
+              second_part = sub_word
+              begining = word[0,word.size - second_part.size]
+              first_part = begining if @dictionary.member?(begining) and (begining+second_part) == word
+            end
+
+            if first_part and second_part then
+              return Array.new([first_part,second_part])
+            end
           end
         end
+
       end
 
       return nil
