@@ -52,3 +52,4 @@ design the dictionary is parse two times. On the other side this does not have a
 
         improve readability of find_concats by removing necessity of two return (keep lcopy of list)
 
+        average of 25-30% decrease in overall performance without pre-parsing

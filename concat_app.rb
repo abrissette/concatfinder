@@ -19,15 +19,14 @@ require 'benchmark'
                 concat_finder.load(file)
             end
             report += "parsing completed in #{method_stats.real*1000} millisecondes\n"
-            report += "#{concat_finder.dictionary.size} word candidates\n"
-            report += "#{concat_finder.sub_words_set.size} possible subwords\n"
+            report += "#{concat_finder.dictionary.size} words of six letters and less\n"
     
             report += "searching concats...\n"
             method_stats = Benchmark.measure do 
                 result = concat_finder.find
             end
             report +=  "search completed in #{method_stats.real*1000} millisecondes\n"
-            report +=  "#{result.size} words are concatenated of 2 smaller ones\n"
+            report +=  "#{result.size} words are 6 letters and concatenated of 2 smaller ones\n"
 
             result.each { | word, concats | puts "#{word}->#{concats.inspect}\n" }
         end
