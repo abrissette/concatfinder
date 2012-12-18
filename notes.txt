@@ -15,6 +15,7 @@ A Set was then introduce to store possible subwords to speed the search.
 Along the way, I changed my mind and decided to go for the 'speed' version then to tag and from there move
 to readability and after extensibility.
 
+*Speed* (Master Branch)
 The 'pre parsing' concept was then introduce to minimize complete words list traversal.  Unfortunately,
 it did harm readability.
 
@@ -44,12 +45,11 @@ method.
 
 Of course, this version showed a small drop in performance/speed for the "loading phase" because with this
 design the dictionary is parse two times. On the other side this does not have a big impact on overall performance
- of the program as "search phase" always take way more time.
+ of the program as "search phase" always take way more time. Overall performance decrease was by an average of 25-30%.
 
 *Readability*
-    options
-        remove single pass 'method' and re-use the find_all and File.foreach to load (see earlier versions)
+In order to improve readability this version do not use 'single pass' dual array loading (word candidate & subwords)
+and re-introduce find_all to filter on loading (see earlier versions). Effort was also made in
+order to make find_concats more verbose by using start_with? and end_with?. With this version overall
+performance decrease was by an average of %300.
 
-        improve readability of find_concats by removing necessity of two return (keep lcopy of list)
-
-        average of 25-30% decrease in overall performance without pre-parsing

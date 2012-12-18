@@ -25,7 +25,7 @@ class ConcatFinder
     def find
       result_hash = Hash.new
 
-      @sub_words = @dictionary.keys.find_all { | sub_word | sub_word.size < 6 }
+      @smaller_words = @dictionary.keys.find_all { | word | word.size < 6 }
       candidates = @dictionary.keys.find_all { | word | word.size == 6 }
 
       candidates.each do | word |
@@ -40,7 +40,8 @@ class ConcatFinder
 
     def find_concats_for_word(word)
 
-      @sub_words.each do | sub_word |
+      @smaller_words.each do | sub_word |
+
         word = word.downcase
         sub_word = sub_word.downcase
 

@@ -1,8 +1,8 @@
 ******* STATS **********
 loading words from file wordlist.txt...
-parsing completed in 41.3899421691895 millisecondes
+parsing completed in 43.2491302490234 millisecondes
 13174 words of six letters and less
 searching concats...
-search completed in 149813.888072968 millisecondes
+search completed in 147835.560083389 millisecondes
 1395 words are 6 letters and concatenated of 2 smaller ones
-Total time for program is 149863.177776337 millisecondes
+Total time for program is 147886.720180511 millisecondes
