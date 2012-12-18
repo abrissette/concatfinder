@@ -51,5 +51,5 @@ design the dictionary is parse two times. On the other side this does not have a
 In order to improve readability this version do not use 'single pass' dual array loading (word candidate & subwords)
 and re-introduce find_all to filter on loading (see earlier versions). Effort was also made in
 order to make find_concats more verbose by using start_with? and end_with?. With this version overall
-performance decrease was by an average of %300.
+performance decrease was by more than %300.
 
