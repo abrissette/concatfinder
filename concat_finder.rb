@@ -24,13 +24,13 @@ class ConcatFinder
 
     def find
       result_hash = Hash.new
-      @dictionary.keys.each do | word |
 
-        if word.size == 6 then
+      @sub_words = @dictionary.keys.find_all { | sub_word | sub_word.size < 6 }
+      candidates = @dictionary.keys.find_all { | word | word.size == 6 }
 
-          if sub_words = find_concats(word) then
-            result_hash[word] = sub_words
-          end
+      candidates.each do | word |
+        if sub_words = find_concats_for_word(word) then
+          result_hash[word] = sub_words
         end
       end
       result_hash
@@ -38,36 +38,27 @@ class ConcatFinder
 
   private
 
-    def find_concats(word)
+    def find_concats_for_word(word)
 
-      @dictionary.keys.each do | sub_word |
+      @sub_words.each do | sub_word |
+        word = word.downcase
+        sub_word = sub_word.downcase
 
-        if sub_word.size < 6 then
-
-          word = word.downcase
-          sub_word = sub_word.downcase
-
-          if (word.include?(sub_word)) then
-            index = word.index(sub_word)
-
-            if index == 0 then
-              first_part = sub_word
-              remaining = word[first_part.size,word.size - first_part.size]
-              second_part = remaining if @dictionary.member?(remaining)
-            else
-              second_part = sub_word
-              begining = word[0,word.size - second_part.size]
-              first_part = begining if @dictionary.member?(begining) and (begining+second_part) == word
+        if word.start_with?(sub_word) then
+            remaining = word[sub_word.size,word.size - sub_word.size]
+            if @dictionary.member?(remaining) then
+              return Array.new([sub_word,remaining])
             end
+        end
 
-            if first_part and second_part then
-              return Array.new([first_part,second_part])
+        if word.end_with?(sub_word) then
+            begining = word[0,word.size - sub_word.size]
+            if @dictionary.member?(begining)  then
+              return Array.new([begining,sub_word])
             end
-          end
         end
 
       end
-
       return nil
     end
 

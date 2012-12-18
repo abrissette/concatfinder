@@ -42,7 +42,7 @@ another type of finder (word finder with regex), I realize that hierarchy was no
 regarding re-use because many element to be re-use were part of methods but not complete
 method.
 
-Of course, this version showed a big drop in performance/speed for the "loading phase" because with this
+Of course, this version showed a small drop in performance/speed for the "loading phase" because with this
 design the dictionary is parse two times. On the other side this does not have a big impact on overall performance
  of the program as "search phase" always take way more time.
 

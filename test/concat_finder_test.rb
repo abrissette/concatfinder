@@ -2,9 +2,6 @@ require 'stringio'
 require "test/unit"
 require "../concat_finder"
 
-                  # potential enhancements
-#improve readability of find_concats by removing necessity of two return (keep lcopy of list)
-
 class ConcatFinderTest < Test::Unit::TestCase
 
   def setup
