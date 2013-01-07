@@ -8,6 +8,11 @@ The resulting list of word with their respective subwords are outputed to the co
 This program is the result of a coding exercise I tried (Kata Eight: Conflicting Objectives)
 Full detail of the Kata can be found [here](http://codekata.pragprog.com/2007/01/kata_eight_conf.html)  
 
+
+In the Kata it is requested to make three different solutions for the same problem with a different 
+focus in mind.  The git master branch correspond to "Performance" focus and the two other correspod 
+to branches "readability" and "extensibility".
+
 How to run
 ----------
 to start the program, clone the repo and add a file that contain the words list to the root directory (ex:wordlist.txt)
